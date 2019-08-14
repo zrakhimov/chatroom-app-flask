@@ -21,3 +21,8 @@ def chat():
         #Save nickname, display on every sent message
         form_nickname = request.form.get("nickname")
         return render_template("chat.html")
+
+@socketio.on("send message")
+def vote(data):
+    msg = data["msg"]
+    emit("display message", {"msg": msg}, broadcast=True)
