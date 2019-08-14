@@ -19,4 +19,5 @@ def chat():
 
     elif request.method == "POST":
         #Save nickname, display on every sent message
-        return "POST detected"
+        form_nickname = request.form.get("nickname")
+        return render_template("chat.html")

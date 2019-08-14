@@ -9,9 +9,13 @@
   <body>
     <div class="container">
       <form action="/chat" method="post">
-        <label for="nickname">Enter your nickname</label>
-        <input type="text" name="nickname" value="">
-        <input type="submit" value="Submit">
+        <div class="form-group">
+          <label for="nickname">Enter your nickname</label>
+          <input type="text" name="nickname" required>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary" type="submit">Submit</button>
+        </div>
       </form>
     </div>
 
