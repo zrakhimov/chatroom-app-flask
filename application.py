@@ -12,17 +12,11 @@ socketio = SocketIO(app)
 def index():
     return render_template("index.html")
 
-@app.route("/chat", methods=["GET", "POST"])
+@app.route("/chat", methods=["POST"])
 def chat():
-    if request.method == "GET":
-        return render_template("chat.html")
-
-    elif request.method == "POST":
-        #Save nickname, display on every sent message
-        form_nickname = request.form.get("nickname")
-        return render_template("chat.html")
+    return render_template("chat.html")
 
 @socketio.on("send message")
-def vote(data):
+def messenger(data):
     msg = data["msg"]
     emit("display message", {"msg": msg}, broadcast=True)
