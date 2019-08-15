@@ -8,15 +8,14 @@ document.addEventListener('DOMContentLoaded', () => {
      socket.on('connect', () => {
         document.querySelector('button').onclick =  () => {
             const msg = document.querySelector('#message').value;
-            const nickname = localStorage.getItem('nickname');
-            socket.emit('send message', {'msg': msg, 'nickname': nickname});
+            socket.emit('send message', {'msg': msg});
         }
      });
 
      // When a new message is sent, add to the queue
      socket.on('display message', data => {
          const p = document.createElement('p');
-         p.innerHTML = `${data.nickname}: ${data.msg}`;
+         p.innerHTML = `${localStorage.getItem("nicknames")}: ${data.msg}`;
          document.querySelector('#conversation').append(p);
      });
 

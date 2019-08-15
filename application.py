@@ -14,7 +14,8 @@ def index():
 
 @app.route("/chat", methods=["POST"])
 def chat():
-    return render_template("chat.html")
+    username = request.form.get("nickname")
+    return render_template("chat.html", nickname=username)
 
 @socketio.on("send message")
 def messenger(data):
