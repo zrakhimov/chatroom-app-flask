@@ -17,6 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById("send").click();
     }
     });
+
+
+
+    
      // When connected, configure buttons
      socket.on('connect', () => {
         document.querySelector('button').onclick =  () => {
@@ -30,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
      // When a new message is sent, add to the queue
      socket.on('display message', data => {
          const p = document.createElement('p');
-         p.innerHTML = `${localStorage.getItem("nickname")}: ${data.msg}`;
+         p.innerHTML = `${localStorage.getItem("username")}: ${data.msg}`;
          document.querySelector('#conversation').append(p);
      });
 
