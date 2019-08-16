@@ -4,8 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Store username in a local storages
     document.querySelector('#form').onsubmit = function() {
         const nickname = document.querySelector('#username').value;
-        if (!localStorage.getItem('username'))
-          localStorage.setItem('username', nickname);
+        localStorage.setItem('username', nickname);
         if (!localStorage.getItem('channel'))
             localStorage.setItem('channel', "#general")
     };
