@@ -16,6 +16,8 @@ def index():
 @app.route("/chat", methods=["POST"])
 def chat():
     localStorageUsername = request.form.get("username")
+    if localStorageUsername in usernames :
+        return render_template("error.html", message="Username already taken. Please choose a different name")
     usernames.append(localStorageUsername)
     return render_template("chat.html", username=localStorageUsername)
 
