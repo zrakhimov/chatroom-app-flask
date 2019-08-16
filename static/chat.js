@@ -26,7 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('button').onclick =  () => {
             // Reset input field
             const msg = document.querySelector('#message').value;
-            socket.emit('send message', {'msg': msg});
+            const username = localStorage.getItem('username');
+            const data = {'msg': msg, 'username': username};
+            socket.emit('send message', data);
             document.querySelector('#message').value = "";
         }
      });
@@ -34,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
      // When a new message is sent, add to the queue
      socket.on('display message', data => {
          const p = document.createElement('p');
-         p.innerHTML = `${localStorage.getItem("username")}: ${data.msg}`;
+         p.innerHTML = `${data.username}: ${data.msg}`;
          document.querySelector('#conversation').append(p);
      });
 

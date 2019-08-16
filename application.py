@@ -7,6 +7,7 @@ app = Flask(__name__)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 socketio = SocketIO(app)
 
+usernames = []
 
 @app.route("/")
 def index():
@@ -14,10 +15,10 @@ def index():
 
 @app.route("/chat", methods=["POST"])
 def chat():
-    username = request.form.get("username")
-    return render_template("chat.html", username=username)
+    localStorageUsername = request.form.get("username")
+    usernames.append(localStorageUsername)
+    return render_template("chat.html", username=localStorageUsername)
 
 @socketio.on("send message")
 def messenger(data):
-    msg = data["msg"]
-    emit("display message", {"msg": msg}, broadcast=True)
+    emit("display message", data, broadcast=True)
