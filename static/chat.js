@@ -21,21 +21,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // Send Message
      socket.on('connect', () => {
         document.querySelector('#send').onclick =  () => {
-            // Reset input field
-            const msg = document.querySelector('#message').value;
-
-            //Prepare the data to send it to server
+            // Save data to local variables
+            const message = document.querySelector('#message').value;
             const username = localStorage.getItem('username');
-            const data = {'msg': msg, 'username': username};
+            const timestamp = new Date().getTime()
+            //Prepare the data to send it to server
+            const data = {'message': message, 'username': username, 'jstimestamp': timestamp};
             socket.emit('send message', data);
+
+            // Clear input field and autofocus
             document.querySelector('#message').value = "";
+            document.querySelector('#message').focus();
         }
      });
 
      // Display Messae
      socket.on('display message', data => {
          const p = document.createElement('p');
-         p.innerHTML = `${data.username}: ${data.msg}`;
+         p.innerHTML = `${data.username}: ${data.message}<br>Sent time: ${data.timestamp}`;
          document.querySelector('#conversation').append(p);
      });
 
