@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+    // Display what channel is the user on from localStorage
+    document.querySelector("h3").innerHTML = "Your are on channel: " + localStorage.getItem('channel');
+
     /************BIND 'SEND' with "Return key"****************** */ 
     var input = document.getElementById("message");
     // Execute a function when the user releases a key on the keyboard
@@ -24,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Save data to local variables
             const message = document.querySelector('#message').value;
             const username = localStorage.getItem('username');
-            const timestamp = new Date().getTime()
+            const timestamp = new Date().getTime();
             //Prepare the data to send it to server
             const data = {'message': message, 'username': username, 'jstimestamp': timestamp};
             socket.emit('send message', data);
@@ -35,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
      });
 
-     // Display Messae
+     // Display Message
      socket.on('display message', data => {
          const p = document.createElement('p');
          p.innerHTML = `${data.username}: ${data.message}<br>Sent time: ${data.timestamp}`;
