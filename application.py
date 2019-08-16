@@ -28,7 +28,8 @@ def chat():
 @socketio.on("send message")
 def messenger(receivedData):
     server_data = {}
-    server_data["timestamp"] = timestamp.fromtimestamp(receivedData["jstimestamp"]/1000).strftime("%H:%M %p")
+
+    server_data["timestamp"] = timestamp.fromtimestamp(receivedData["jstimestamp"]/1000).strftime("%c %z %Z")
     server_data["username"] = receivedData["username"]
     server_data["message"] = receivedData["message"]
     emit("display message", server_data, broadcast=True)
