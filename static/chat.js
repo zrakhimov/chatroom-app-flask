@@ -1,12 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-
-     // Connect to websocket
-     var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
-           
-    // BIND 'SEND' with "Return key"
+    /************BIND 'SEND' with "Return key"****************** */ 
     var input = document.getElementById("message");
-
     // Execute a function when the user releases a key on the keyboard
     input.addEventListener("keyup", function(event) {
     // Number 13 is the "Enter" key on the keyboard
@@ -15,17 +9,22 @@ document.addEventListener('DOMContentLoaded', () => {
         event.preventDefault();
         // Trigger the button element with a click
         document.getElementById("send").click();
+        // focus input field
+        document.getElementById("message").focus();
     }
     });
 
-
-
+    // Connect to websocket
+    var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
+     
     
-     // When connected, configure buttons
+    // Send Message
      socket.on('connect', () => {
-        document.querySelector('button').onclick =  () => {
+        document.querySelector('#send').onclick =  () => {
             // Reset input field
             const msg = document.querySelector('#message').value;
+
+            //Prepare the data to send it to server
             const username = localStorage.getItem('username');
             const data = {'msg': msg, 'username': username};
             socket.emit('send message', data);
@@ -33,7 +32,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
      });
 
-     // When a new message is sent, add to the queue
+     // Display Messae
      socket.on('display message', data => {
          const p = document.createElement('p');
          p.innerHTML = `${data.username}: ${data.msg}`;
