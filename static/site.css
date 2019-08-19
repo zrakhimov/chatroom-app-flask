@@ -25,3 +25,14 @@ body {
   opacity: 0.85;
   filter: alpha(opacity=85);
 }
+
+
+#channelColumn {
+  border-style: solid;
+  border-width: 0px 1px 0px 0px;
+}
+
+#conversation {
+  height: 600px;
+  overflow-y: auto;
+}

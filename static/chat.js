@@ -25,6 +25,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Send Message
      socket.on('connect', () => {
         document.querySelector('#send').onclick =  () => {
+            if(document.querySelector('#message').value == ''){
+                
+            }
+            else {
             // Save data to local variables
             const message = document.querySelector('#message').value;
             const username = localStorage.getItem('username');
@@ -36,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Clear input field and autofocus
             document.querySelector('#message').value = "";
             document.querySelector('#message').focus();
+            }  
         }
      });
 
