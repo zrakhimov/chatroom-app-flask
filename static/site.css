@@ -1,3 +1,15 @@
+
+body {
+  font-family: 'Roboto', sans-serif;
+  height: 100%;
+  width: 100%;
+  background: url('background.jpg') no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+}
+
 .vertical-center {
     min-height: 100%;  /* Fallback for browsers do NOT support vh unit */
     min-height: 100vh; /* These two lines are counted as one :-)       */
@@ -5,3 +17,8 @@
     display: flex;
     align-items: center;
   }
+
+.jumbotron {
+  opacity: 0.85;
+  filter: alpha(opacity=85);
+}
