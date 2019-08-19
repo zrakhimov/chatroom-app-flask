@@ -35,8 +35,6 @@ class User:
         #FK
         self.fk_channelid = self.fk_ch
 
-
-
 class Channel:
     counter = 1
     def __init__(self, channelname):
