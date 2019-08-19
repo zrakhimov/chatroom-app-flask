@@ -6,6 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const nickname = document.querySelector('#username').value;
         localStorage.setItem('username', nickname);
         if (!localStorage.getItem('channel'))
-            localStorage.setItem('channel', '{{username}}')
+            localStorage.setItem('channel', '#general');
     };
 });
