@@ -8,49 +8,47 @@ app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 socketio = SocketIO(app)
 
 class Message:
-    counter = 1
+    message_counter = 1
     def __init__(self, content, time, fk_u, fk_ch):
         #set ID property
-        self.id = Message.counter
-        counter += 1
-        
+        self.id = Message.message_counter
+        Message.message_counter += 1
         #local variables
         self.content = content
         self.time = time
-
         #FK
         self.fk_userid = self.fk_u
         self.fk_channelid = self.fk_ch
 
 class User:
-    counter = 1
-    def _init_(self, username, fk_ch):
+    user_counter = 1
+    def __init__(self, username):
         #set ID property
-        self.id = User.counter
-        counter += 1
-
+        self.id = User.user_counter
         #local variables
         self.username = username
-
-        #FK
-        self.fk_channelid = self.fk_ch
+        #FK - default it 1 which is #general
+        self.fk_channelid = 1
+        User.user_counter += 1
+    def setChannel(fk_ch):
+        self.fk_channelid = fk_ch
 
 class Channel:
-    counter = 1
+    channel_counter = 1
     def __init__(self, channelname):
-        self.id = Channel.counter
-        counter += 1
+        self.id = Channel.channel_counter
         self.channelname = channelname
+        Channel.channel_counter += 1
 
+########## LISTS #############
+usernamesList = []
+messagesList = []
+channelsList = []
+#first default channel is #general
+channelsList.append(Channel(channelname = "#general"))
+#first default user is "admin"
+usernamesList.append(User(username = "admin"))
 
-
-
-
-
-
-
-usernames = []
-messages = []
 timestamp = datetime.datetime
 
 @app.route("/")
@@ -59,13 +57,25 @@ def index():
 
 @app.route("/chat", methods=["POST"])
 def chat():
-    localStorageUsername = request.form.get("username")
-    #if username is already being used
-    if localStorageUsername in usernames :
-        return render_template("error.html", message="Username already taken. Please choose a different name")
-    #Otherwise add it to usernames list
-    usernames.append(localStorageUsername)
-    return render_template("chat.html", username=localStorageUsername)
+    # accept user input to a temp variable
+    temp_username = request.form.get("username")
+    found = 0
+    # check if the username already exists
+    for obj in usernamesList:
+        if temp_username == obj.username:
+            found = 1
+            return render_template("error.html", message="Username already taken. Please choose a different name")
+   
+    # Otherwise add it to usernames list
+    # create an object of type User() ==> "0 is a channel: #general by default"
+    if not found:
+        user_instance=User(temp_username)
+        usernamesList.append(user_instance)
+        for obj in channelsList:
+            if user_instance.fk_channelid == obj.id:
+                current_channel = obj.channelname
+        
+        return render_template("chat.html", username=user_instance.username, channel=current_channel)
 
 @socketio.on("send message")
 def messenger(receivedData):
