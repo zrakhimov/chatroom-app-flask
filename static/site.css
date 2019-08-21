@@ -26,13 +26,20 @@ body {
   filter: alpha(opacity=85);
 }
 
-
-#channelColumn {
-  border-style: solid;
-  border-width: 0px 1px 0px 0px;
+/***** CHAT window *****/
+/*only on medium screens*/
+#channelColumn, #messagesColumn {
+  height: 100vh;
 }
 
 #conversation {
-  height: 600px;
+  height: 85vh;
   overflow-y: auto;
+}
+
+#sendPanel {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  padding: 0px 10px 5px 10px;
 }

@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
             //Prepare the data to send it to server
             const data = {'message': message, 'username': username, 'jstimestamp': timestamp};
             socket.emit('send message', data);
-
+            
             // Clear input field and autofocus
             document.querySelector('#message').value = "";
             document.querySelector('#message').focus();
@@ -49,6 +49,10 @@ document.addEventListener('DOMContentLoaded', () => {
          const p = document.createElement('p');
          p.innerHTML = `${data.username}: ${data.message}<br>Sent time: ${data.timestamp}`;
          document.querySelector('#conversation').append(p);
+
+        // Scroll the messages to the bottom
+        var messageScroll = document.getElementById("conversation");
+        messageScroll.scrollTo(0, messageScroll.scrollHeight);
      });
 
  });
