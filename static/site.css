@@ -28,7 +28,7 @@ body {
 
 /***** CHAT window *****/
 /*only on medium screens*/
-#channelColumn, #messagesColumn {
+#messagesColumn {
   height: 100vh;
 }
 
