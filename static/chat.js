@@ -18,6 +18,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     });
 
+    //
+
+
+
     // Connect to websocket
     var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
      
@@ -26,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
      socket.on('connect', () => {
         document.querySelector('#send').onclick =  () => {
             if(document.querySelector('#message').value == ''){
-                
+                // don't do anything
             }
             else {
             // Save data to local variables

@@ -58,24 +58,29 @@ def index():
 @app.route("/chat", methods=["POST"])
 def chat():
     # accept user input to a temp variable
-    temp_username = request.form.get("username")
+    local_storage_exists = request.form.get("local-storage-exists")
     found = 0
-    # check if the username already exists
-    for obj in usernamesList:
-        if temp_username == obj.username:
-            found = 1
-            return render_template("error.html", message="Username already taken. Please choose a different name")
-   
-    # Otherwise add it to usernames list
-    # create an object of type User() ==> "0 is a channel: #general by default"
-    if not found:
-        user_instance=User(temp_username)
-        usernamesList.append(user_instance)
-        for obj in channelsList:
-            if user_instance.fk_channelid == obj.id:
-                current_channel = obj.channelname
-        
-        return render_template("chat.html", username=user_instance.username, channel=current_channel)
+
+    if (local_storage_exists):
+        existing_username = request.form.get("username")
+        existing_channel = request.form.get("channel")
+        return render_template("chat.html", username=existing_username, channel=existing_channel)
+    else:
+        new_username = request.form.get("username")
+        # check if the username already exists
+        for obj in usernamesList:
+            if new_username == obj.username:
+                found = 1
+                return render_template("error.html", message="Username already taken. Please choose a different name")
+            # Otherwise add it to usernames list
+            # create an object of type User() ==> "0 is a channel: #general by default"
+            if not found:
+                new_user_instance = User(new_username)
+                usernamesList.append(new_user_instance)
+                for obj in channelsList:
+                    if new_user_instance.fk_channelid == obj.id:
+                        current_channel = obj.channelname
+        return render_template("chat.html", username=new_user_instance.username, channel=current_channel)
 
 @socketio.on("send message")
 def messenger(receivedData):
