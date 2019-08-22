@@ -1,8 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Display what channel is the user on from localStorage
-    //document.querySelector("h3").innerHTML = "Your are on channel: " + localStorage.getItem('channel');
-    //document.querySelector("h1").innerHTML = "Hello " + localStorage.getItem('username');
     /************BIND 'SEND' with "Return key"****************** */ 
     var input = document.getElementById("message");
     // Execute a function when the user releases a key on the keyboard
@@ -18,10 +15,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     });
 
-    //
+    /************ AJAX CALL FOR CHANNELS ****************** */ 
+    
 
 
-
+    /************ Socket IO ****************** */ 
     // Connect to websocket
     var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
      
