@@ -1,6 +1,6 @@
 import os, datetime
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
@@ -81,6 +81,14 @@ def chat():
                     if new_user_instance.fk_channelid == obj.id:
                         current_channel = obj.channelname
         return render_template("chat.html", username=new_user_instance.username, channel=current_channel)
+
+@app.route("/addch", methods=["POST"])
+def addchannel():
+
+    #Recieve sent data from AJAX call
+    channel = request.form.get("channel")
+    #Return received channel
+    return jsonify({"channel": channel})
 
 @socketio.on("send message")
 def messenger(receivedData):

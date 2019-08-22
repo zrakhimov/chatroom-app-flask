@@ -16,7 +16,45 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     /************ AJAX CALL FOR CHANNELS ****************** */ 
-    
+    document.querySelector("#add-channel-button").onclick = () => {
+
+        // Initialize new AJAX request
+        const request = new XMLHttpRequest();
+        const channel = document.querySelector("#channel-id").value;
+        request.open('POST', '/addch');
+        // Add data to send with request
+        const data = new FormData();
+        data.append('channel', channel);
+        // Send request
+        request.send(data);
+
+
+        // Callback function
+        request.onload = () => {
+
+            // Extract JSON data from request
+            const data = JSON.parse(request.responseText);
+
+            //Create button element
+            const button = document.createElement('button');
+            const attclass = document.createAttribute("class");
+            attclass.value = "btn btn-outline-secondary"
+            const atttype = document.createAttribute("type");
+            atttype.value = "button"
+            button.innerHTML = `#${data.channel}`;
+            button.setAttributeNode(attclass);
+            button.setAttributeNode(atttype);
+
+            document.querySelector('#channel-list').append(button);
+
+
+        }
+        // Clear input field and autofocus
+        document.querySelector('#channel-id').value = "";
+        document.querySelector('#channel-id').focus();
+
+        return false;
+    }
 
 
     /************ Socket IO ****************** */ 
