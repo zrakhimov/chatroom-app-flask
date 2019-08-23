@@ -44,7 +44,6 @@ document.addEventListener('DOMContentLoaded', () => {
             button.innerHTML = `#${data.channel}`;
             button.setAttributeNode(attclass);
             button.setAttributeNode(atttype);
-
             document.querySelector('#channel-list').append(button);
 
 
