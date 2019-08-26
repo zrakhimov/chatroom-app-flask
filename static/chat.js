@@ -63,9 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 button.setAttributeNode(atttype);
                 document.querySelector('#channel-list').append(button);
             }
-            
-
-
         }
         // Clear input field and autofocus
         document.querySelector('#channel-id').value = "";
