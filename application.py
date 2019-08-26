@@ -87,8 +87,12 @@ def addchannel():
 
     #Recieve sent data from AJAX call
     channel = request.form.get("channel")
-    #Return received channel
-    return jsonify({"channel": channel})
+
+    #Add channel to the channel list 
+    channelsList.append(channel)
+
+    #Return the last item in the channelsList
+    return jsonify({"channel": channelsList[-1]})
 
 @socketio.on("send message")
 def messenger(receivedData):
