@@ -46,20 +46,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Callback function
         request.onload = () => {
+            if (request.status != 200)
+                alert("Channel exists! Please enter a different name for the channel");
+            else {
+                // Extract JSON data from request
+                const data = JSON.parse(request.responseText);
 
-            // Extract JSON data from request
-            const data = JSON.parse(request.responseText);
-
-            //Create button element
-            const button = document.createElement('button');
-            const attclass = document.createAttribute("class");
-            attclass.value = "btn btn-outline-secondary"
-            const atttype = document.createAttribute("type");
-            atttype.value = "button"
-            button.innerHTML = `#${data.channel}`;
-            button.setAttributeNode(attclass);
-            button.setAttributeNode(atttype);
-            document.querySelector('#channel-list').append(button);
+                //Create button element
+                const button = document.createElement('button');
+                const attclass = document.createAttribute("class");
+                attclass.value = "btn btn-outline-secondary"
+                const atttype = document.createAttribute("type");
+                atttype.value = "button"
+                button.innerHTML = `#${data.channel}`;
+                button.setAttributeNode(attclass);
+                button.setAttributeNode(atttype);
+                document.querySelector('#channel-list').append(button);
+            }
+            
 
 
         }

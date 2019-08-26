@@ -1,6 +1,6 @@
 import os, datetime
 
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, abort
 from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
@@ -87,6 +87,9 @@ def addchannel():
 
     #Recieve sent data from AJAX call
     channel = request.form.get("channel")
+    #Check if the channel already exist
+    if channel in channelsList:
+        abort(409)
 
     #Add channel to the channel list 
     channelsList.append(channel)
