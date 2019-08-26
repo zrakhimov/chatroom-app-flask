@@ -45,7 +45,7 @@ usernamesList = []
 messagesList = []
 channelsList = []
 #first default channel is #general
-channelsList.append(Channel(channelname = "#general"))
+channelsList.append(Channel(channelname = "general"))
 #first default user is "admin"
 usernamesList.append(User(username = "admin"))
 
