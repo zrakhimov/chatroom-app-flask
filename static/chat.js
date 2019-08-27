@@ -33,9 +33,13 @@ document.addEventListener('DOMContentLoaded', () => {
     /************ AJAX CALL FOR CHANNELS ****************** */ 
     document.querySelector("#add-channel-button").onclick = () => {
 
-        // Initialize new AJAX request
-        const request = new XMLHttpRequest();
         const channel = document.querySelector("#channel-id").value;
+        if (channel == ""){
+            alert("Please enter channel name!");
+        }
+        else {
+            // Initialize new AJAX request
+        const request = new XMLHttpRequest();
         request.open('POST', '/addch');
         // Add data to send with request
         const data = new FormData();
@@ -54,10 +58,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 //Create button element
                 const button = document.createElement('button');
+                
+                // id = <data.channel.id>
+                const attid = document.createAttribute("id");
+                attid.value =  data.channelid;
+
+                //class = btn btn-outline-secondary
                 const attclass = document.createAttribute("class");
                 attclass.value = "btn btn-outline-secondary"
+                // type = button
                 const atttype = document.createAttribute("type");
                 atttype.value = "button"
+
                 button.innerHTML = `#${data.channel}`;
                 button.setAttributeNode(attclass);
                 button.setAttributeNode(atttype);
@@ -68,6 +80,8 @@ document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('#channel-id').value = "";
         document.querySelector('#channel-id').focus();
 
+        }
+        
         return false;
     }
 

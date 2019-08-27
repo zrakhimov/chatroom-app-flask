@@ -82,21 +82,26 @@ def chat():
                         current_channel = obj.channelname
         return render_template("chat.html", username=new_user_instance.username, channel=current_channel)
 
+
+
 @app.route("/addch", methods=["POST"])
 def addchannel():
 
     #Recieve sent data from AJAX call
     channel = request.form.get("channel")
-
+    channel_exists = False
     #Check if the channel already exist
-    if channel in channelsList:
+    for obj in channelsList:
+        if channel == obj.channelname:
+            channel_exists = True
+    if channel_exists:
         abort(409)
     else:
-        #Add channel to the channel list 
-        channelsList.append(channel)
+        #Add channel to the channel list of Channel objects
+        channelsList.append(Channel(channelname = channel))
 
         #Return the last item in the channelsList
-        return jsonify({"channel": channelsList[-1]})
+        return jsonify({"channel": channelsList[-1].channelname, "channelid": channelsList[-1].id})
 
 @socketio.on("send message")
 def messenger(receivedData):
