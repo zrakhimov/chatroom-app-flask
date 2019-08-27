@@ -73,6 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 button.innerHTML = `#${data.channel}`;
                 button.setAttributeNode(attclass);
                 button.setAttributeNode(atttype);
+                button.setAttribute(attid);
                 document.querySelector('#channel-list').append(button);
             }
         }
