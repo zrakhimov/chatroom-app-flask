@@ -88,6 +88,13 @@ document.addEventListener('DOMContentLoaded', () => {
         return false;
     }
 
+    document.querySelectorAll(".ch-class").forEach( (button) => {
+        button.onclick = () => {
+            let msg = button.getAttribute("id");
+            alert(msg);
+        };
+    });
+
     /************ AJAX CALL FOR CHANNELS *******************/
 
 

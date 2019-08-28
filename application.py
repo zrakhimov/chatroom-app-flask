@@ -84,7 +84,7 @@ def chat():
         return render_template("chat.html", username=new_user_instance.username, current_channel=current_channel, channelsResult=channelsList )
 
 
-
+#Ajax update
 @app.route("/addch", methods=["POST"])
 def addchannel():
 
