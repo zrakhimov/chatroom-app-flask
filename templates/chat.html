@@ -30,9 +30,9 @@
             <!-- Updated Channels list-->
             {% for item in channelsResult %}
                 {% if current_channel == item.channelname %}
-                  <button type="button" class="btn btn-outline-secondary active">#{{item.channelname}}</button>
+                  <button id='ch-{{item.id}}' type="button" class="btn btn-outline-secondary active">#{{item.channelname}}</button>
                 {% elif current_channel != item.channelname%}
-                  <button type="button" class="btn btn-outline-secondary">#{{item.channelname}}</button>
+                  <button id='ch-{{item.id}}' type="button" class="btn btn-outline-secondary">#{{item.channelname}}</button>
                 {% endif %}
             {% endfor %}
             </div>
