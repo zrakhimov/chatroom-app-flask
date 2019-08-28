@@ -65,7 +65,7 @@ def chat():
     if (local_storage_exists):
         existing_username = request.form.get("username")
         existing_channel = request.form.get("channel")
-        return render_template("chat.html", username=existing_username, channel=existing_channel, channelsResult=channelsList)
+        return render_template("chat.html", username=existing_username, current_channel=existing_channel, channelsResult=channelsList)
     else:
         new_username = request.form.get("username")
         # check if the username already exists
@@ -81,7 +81,7 @@ def chat():
                 for obj in channelsList:
                     if new_user_instance.fk_channelid == obj.id:
                         current_channel = obj.channelname
-        return render_template("chat.html", username=new_user_instance.username, channel=current_channel, channelsResult=channelsList )
+        return render_template("chat.html", username=new_user_instance.username, current_channel=current_channel, channelsResult=channelsList )
 
 
 
