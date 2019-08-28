@@ -39,22 +39,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         else {
             // Initialize new AJAX request
-        const request = new XMLHttpRequest();
-        request.open('POST', '/addch');
-        // Add data to send with request
-        const data = new FormData();
-        data.append('channel', channel);
-        // Send request
-        request.send(data);
+            const request = new XMLHttpRequest();
+            request.open('POST', '/addch');
+            // Add data to send with request
+            const data = new FormData();
+            data.append('channel', channel);
+            // Send request
+            request.send(data);
 
 
         // Callback function
         request.onload = () => {
-            if (request.status != 200)
+            if (JSON.parse(request.responseText).status == "exists")
                 alert("Channel exists! Please enter a different name for the channel");
             else {
-                 location.reload();
-                /* Extract JSON data from request
+                 //location.reload();
+                //Extract JSON data from request
                 const data = JSON.parse(request.responseText);
 
                 //Create button element
@@ -62,11 +62,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // id = <data.channel.id>
                 const attid = document.createAttribute("id");
-                attid.value =  `ch-${data.channelid}`;
+                attid.value =  `${data.channelid}`;
 
                 //class = btn btn-outline-secondary
                 const attclass = document.createAttribute("class");
-                attclass.value = "btn btn-outline-secondary"
+                attclass.value = "ch-class btn btn-outline-secondary"
                 // type = button
                 const atttype = document.createAttribute("type");
                 atttype.value = "button"
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 button.setAttributeNode(atttype);
                 button.setAttributeNode(attid);
                 document.querySelector('#channel-list').append(button);
-                */
+                
             }
         }
         // Clear input field and autofocus
@@ -90,13 +90,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll(".ch-class").forEach( (button) => {
         button.onclick = () => {
-            let msg = button.getAttribute("id");
-            alert(msg);
+            const channel_id = button.getAttribute("id");
+            const username = localStorage.getItem('username');
+            if (channel_id == ""){
+                alert("Channel id doesn't exist!");
+            }
+            else {
+                // Initialize new AJAX request
+                const request = new XMLHttpRequest();
+                request.open('POST', '/selectch');
+                // Add data to send with request
+                const data = new FormData();
+                data.append('channel_id', channel_id);
+                data.append('username', username)
+                // Send request
+                request.send(data);
+
+
+                // Callback function
+                request.onload = () => {
+                    if (request.status != 200)
+                        alert("Something went wrong");
+                    else {
+                        document.querySelector(`#${data.channel_id}`).active = true;
+                        
+                    }
+                }
+            }
+            
+            return false;
         };
     });
 
-    /************ AJAX CALL FOR CHANNELS *******************/
-
+    
 
     /************ Socket IO ****************** */ 
     // Connect to websocket

@@ -12,7 +12,7 @@
     <div class="container-fluid">
       <div class="row">
           <!-- Channels Column-->
-          <div id="channelColumn" class="col-md-3 border-right">
+          <div id="channelColumn" class="col-md-6 border-right">
             <h3 class="border-bottom">Channels</h3>
             <!--Add Channel-->
             <div id="add-channel-panel" class="input-group">
@@ -27,7 +27,7 @@
 
             <!-- List of channels-->
             <div id="channel-list" class="d-flex btn-group-vertical justify-content-center">
-            <!-- Updated Channels list-->
+            <!-- Updated Channels list -->
             {% for item in channelsResult %}
                 {% if current_channel == item.channelname %}
                   <button id='{{item.id}}' type="button" class="ch-class btn btn-outline-secondary active">#{{item.channelname}}</button>
@@ -35,12 +35,25 @@
                   <button id='{{item.id}}' type="button" class="ch-class btn btn-outline-secondary">#{{item.channelname}}</button>
                 {% endif %}
             {% endfor %}
+        
             </div>
+
+            <!-- Testing purposes-->
+            {% for item in channelsResult %}
+                channelName: {{item.channelname}} | channelID: {{item.id}} | channelCounter: {{item.channel_counter}}<br>
+            {% endfor %}
+            <br>
+            {% for x in usernamesResult %}
+                username: {{x.username}} | usernameID: {{x.id}} | userCounter: {{x.user_counter}} | userChannel: {{x.fk_channelid}}<br>
+            {% endfor %}
+            <br>
+            current_channel = {{current_channel}} | Current_username: {{username}}
+
           </div>
 
 
           <!-- Messages Column-->
-          <div id="messagesColumn" class="col-md-9">
+          <div id="messagesColumn" class="col-md-6">
             <h3 class="border-bottom">You're signed in as : {{username}}</h3>
             <!-- Socket IO conversation window-->
             <div id="conversation">

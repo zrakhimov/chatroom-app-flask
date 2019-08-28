@@ -1,6 +1,6 @@
 import os, datetime
 
-from flask import Flask, render_template, request, jsonify, abort
+from flask import Flask, redirect, render_template, request, jsonify, abort, url_for
 from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
@@ -8,7 +8,7 @@ app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 socketio = SocketIO(app)
 
 class Message:
-    message_counter = 1
+    message_counter = 0
     def __init__(self, content, time, fk_u, fk_ch):
         #set ID property
         self.id = Message.message_counter
@@ -21,20 +21,20 @@ class Message:
         self.fk_channelid = self.fk_ch
 
 class User:
-    user_counter = 1
+    user_counter = 0
     def __init__(self, username):
         #set ID property
         self.id = User.user_counter
         #local variables
         self.username = username
-        #FK - default it 1 which is #general
-        self.fk_channelid = 1
+        #FK - default it 0 which is #general
+        self.fk_channelid = 0
         User.user_counter += 1
     def setChannel(fk_ch):
         self.fk_channelid = fk_ch
 
 class Channel:
-    channel_counter = 1
+    channel_counter = 0
     def __init__(self, channelname):
         self.id = Channel.channel_counter
         self.channelname = channelname
@@ -59,32 +59,33 @@ def index():
 @app.route("/chat", methods=["POST"])
 def chat():
     # accept user input to a temp variable
-    local_storage_exists = request.form.get("local-storage-exists")
-    found = 0
+    local_storage_exists = request.form.get("name-local-storage-exists")
 
-    if (local_storage_exists):
+    if (local_storage_exists is "1"):
         existing_username = request.form.get("username")
         existing_channel = request.form.get("channel")
-        return render_template("chat.html", username=existing_username, current_channel=existing_channel, channelsResult=channelsList)
+        return render_template("chat.html", username=existing_username, current_channel=existing_channel, channelsResult=channelsList, usernamesResult=usernamesList)
     else:
+        found = False
         new_username = request.form.get("username")
         # check if the username already exists
         for obj in usernamesList:
             if new_username == obj.username:
-                found = 1
-                return render_template("error.html", message="Username already taken. Please choose a different name")
-            # Otherwise add it to usernames list
-            # create an object of type User() ==> "0 is a channel: #general by default"
-            if not found:
-                new_user_instance = User(new_username)
-                usernamesList.append(new_user_instance)
-                for obj in channelsList:
-                    if new_user_instance.fk_channelid == obj.id:
-                        current_channel = obj.channelname
-        return render_template("chat.html", username=new_user_instance.username, current_channel=current_channel, channelsResult=channelsList )
+                found = True
+        if found:
+            return render_template("error.html", message="Username already taken. Please choose a different name")
+        # Otherwise add it to usernames list
+        # create an object of type User() ==> "0 is a channel: #general by default"
+        if not found:
+            new_user_instance = User(username = new_username)
+            usernamesList.append(new_user_instance)
+            for obj in channelsList:
+                if new_user_instance.fk_channelid == obj.id:
+                    current_channel = obj.channelname
+            return render_template("chat.html", username=new_user_instance.username, current_channel=current_channel, channelsResult=channelsList, usernamesResult=usernamesList )
+#todo : POST REDIRECT GET pattern
 
-
-#Ajax update
+#Ajax add
 @app.route("/addch", methods=["POST"])
 def addchannel():
 
@@ -96,14 +97,29 @@ def addchannel():
         if channel == obj.channelname:
             channel_exists = True
     if channel_exists:
-        abort(409)
+        return jsonify({"status": "exists"})
     else:
         #Add channel to the channel list of Channel objects
         channelsList.append(Channel(channelname = channel))
-
         #Return the last item in the channelsList
-        #return jsonify({"channel": channelsList[-1].channelname, "channelid": channelsList[-1].id})
-        return '', 200
+
+        return jsonify({"channel": channelsList[-1].channelname, "channelid": channelsList[-1].id})
+        #return '', 200
+
+# AJAX select
+@app.route("/selectch", methods=["POST"])
+def selectchannel():
+    #Receive sent data from AJAX call
+    channel_id = request.form.get("channel_id")
+    username = request.form.get("username")
+    for obj in usernamesList:
+        if username == obj.username:
+            obj.setChannel(channel_id)
+
+    return '', 200
+
+    
+
 
 @socketio.on("send message")
 def messenger(receivedData):

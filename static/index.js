@@ -11,7 +11,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // submit the form to the server
             document.querySelector("#form").submit();
         }
-        else {
+        // if localStorage doesn't exist
+        else {                       
+            document.querySelector("#local-storage-exists").setAttribute("value", "0");
             // Store username in a local storages
             document.querySelector('#form').onsubmit = () => {
                 document.querySelector("#channel").value = "general";
