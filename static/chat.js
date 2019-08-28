@@ -53,7 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
             if (request.status != 200)
                 alert("Channel exists! Please enter a different name for the channel");
             else {
-                // Extract JSON data from request
+                 location.reload();
+                /* Extract JSON data from request
                 const data = JSON.parse(request.responseText);
 
                 //Create button element
@@ -61,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // id = <data.channel.id>
                 const attid = document.createAttribute("id");
-                attid.value =  data.channelid;
+                attid.value =  `ch-${data.channelid}`;
 
                 //class = btn btn-outline-secondary
                 const attclass = document.createAttribute("class");
@@ -75,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 button.setAttributeNode(atttype);
                 button.setAttributeNode(attid);
                 document.querySelector('#channel-list').append(button);
+                */
             }
         }
         // Clear input field and autofocus
@@ -85,6 +87,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
         return false;
     }
+
+    /************ AJAX CALL FOR CHANNELS *******************/
 
 
     /************ Socket IO ****************** */ 
