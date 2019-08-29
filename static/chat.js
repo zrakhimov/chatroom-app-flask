@@ -168,6 +168,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         const data = JSON.parse(request.responseText);
                         // Display current channel
                         document.querySelector("#current_channel").innerHTML = "#" + data.selected_channel;
+                        // Change Local Storage channel value
+                        localStorage.setItem('channel', data.selected_channel);
                         // Highlight the button as active
                         document.querySelectorAll(".ch-class").forEach( (button) => {
                                 if (button.innerHTML == `#${data.selected_channel}`){
