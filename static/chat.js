@@ -75,8 +75,10 @@ document.addEventListener('DOMContentLoaded', () => {
  });
 
 
-// Event delegation
+
+
  document.addEventListener("click", () => {
+
     /************ AJAX CALL FOR creating CHANNELS ****************** */ 
     document.querySelector("#add-channel-button").onclick = () => {
 
@@ -173,21 +175,12 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     });   
        
-   
-
- });
-
-  /************ AJAX CALL FOR get Master data ****************** */ 
-
-document.addEventListener("change", () => {
-
-      
+    /************ AJAX CALL FOR get Master data ----- TEST ------ ****************** */ 
     // Initialize new AJAX request
     const request = new XMLHttpRequest();
     request.open('GET', '/getData');
     // Send request
     request.send();
-
 
     // Callback function
     request.onload = () => {
@@ -202,13 +195,12 @@ document.addEventListener("change", () => {
         li3.innerHTML = data[2];
         document.querySelector("#jsonTest").append(li1);
         document.querySelector("#jsonTest").append(li2);
-        document.querySelector("#jsonTest").append(li3);
-                        
+        document.querySelector("#jsonTest").append(li3);         
     }
+    /*-------------------- END TEST -------------------------------- */
 
+ });
 
-return false;
-});
 
 
 
