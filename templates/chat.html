@@ -29,11 +29,7 @@
             <div id="channel-list" class="d-flex btn-group-vertical justify-content-center">
             <!-- Updated Channels list -->
             {% for item in channelsResult %}
-                {% if current_channel == item.channelname %}
-                  <button id='{{item.id}}' type="button" class="ch-class btn btn-outline-secondary active">#{{item.channelname}}</button>
-                {% elif current_channel != item.channelname%}
-                  <button id='{{item.id}}' type="button" class="ch-class btn btn-outline-secondary">#{{item.channelname}}</button>
-                {% endif %}
+                  <button id='ch-{{item.id}}' type="button" class="ch-class btn btn-outline-secondary ">#{{item.channelname}}</button>
             {% endfor %}
         
             </div>

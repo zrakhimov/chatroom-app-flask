@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     });
 
-    /************ AJAX CALL FOR CHANNELS ****************** */ 
+     /************ AJAX CALL FOR CHANNELS ****************** */ 
     document.querySelector("#add-channel-button").onclick = () => {
 
         const channel = document.querySelector("#channel-id").value;
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (JSON.parse(request.responseText).status == "exists")
                 alert("Channel exists! Please enter a different name for the channel");
             else {
-                 //location.reload();
+                //location.reload();
                 //Extract JSON data from request
                 const data = JSON.parse(request.responseText);
 
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // id = <data.channel.id>
                 const attid = document.createAttribute("id");
-                attid.value =  `${data.channelid}`;
+                attid.value =  `ch-${data.channelid}`;
 
                 //class = btn btn-outline-secondary
                 const attclass = document.createAttribute("class");
@@ -90,7 +90,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.querySelectorAll(".ch-class").forEach( (button) => {
         button.onclick = () => {
-            const channel_id = button.getAttribute("id");
+            // channel id change from "ch-2" to "2"
+            const channel_id = button.getAttribute("id").replace("ch-", "");
             const username = localStorage.getItem('username');
             if (channel_id == ""){
                 alert("Channel id doesn't exist!");
@@ -112,7 +113,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (request.status != 200)
                         alert("Something went wrong");
                     else {
-                        document.querySelector(`#${data.channel_id}`).active = true;
+                    let msg = button.getAttribute("id").replace("ch-", "");
+                    alert("You pressed " + msg);
+
                         
                     }
                 }
@@ -120,9 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
             return false;
         };
-    });
-
-    
+    });    
 
     /************ Socket IO ****************** */ 
     // Connect to websocket
@@ -163,3 +164,7 @@ document.addEventListener('DOMContentLoaded', () => {
      });
 
  });
+
+
+
+

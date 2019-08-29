@@ -30,7 +30,7 @@ class User:
         #FK - default it 0 which is #general
         self.fk_channelid = 0
         User.user_counter += 1
-    def setChannel(fk_ch):
+    def setChannel(self, fk_ch):
         self.fk_channelid = fk_ch
 
 class Channel:
