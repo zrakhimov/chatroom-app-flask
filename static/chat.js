@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+
+
     /************BIND 'SEND' with "Return key"****************** */ 
     var input = document.getElementById("message");
     // Execute a function when the user releases a key on the keyboard
@@ -30,7 +32,52 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     });
 
-     /************ AJAX CALL FOR CHANNELS ****************** */ 
+
+
+    /************ Socket IO ****************** */ 
+    // Connect to websocket
+    var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
+     
+    
+    // Send Message
+     socket.on('connect', () => {
+        document.querySelector('#send').onclick =  () => {
+            if(document.querySelector('#message').value == ''){
+                // don't do anything
+            }
+            else {
+            // Save data to local variables
+            const message = document.querySelector('#message').value;
+            const username = localStorage.getItem('username');
+            const timestamp = new Date().getTime();
+            //Prepare the data to send it to server
+            const data = {'message': message, 'username': username, 'jstimestamp': timestamp};
+            socket.emit('send message', data);
+            
+            // Clear input field and autofocus
+            document.querySelector('#message').value = "";
+            document.querySelector('#message').focus();
+            }  
+        }
+     });
+
+     // Display Message
+     socket.on('display message', data => {
+         const p = document.createElement('p');
+         p.innerHTML = `${data.username}: ${data.message}<br>Sent time: ${data.timestamp}`;
+         document.querySelector('#conversation').append(p);
+
+        // Scroll the messages to the bottom
+        var messageScroll = document.getElementById("conversation");
+        messageScroll.scrollTo(0, messageScroll.scrollHeight);
+     });
+
+ });
+
+
+// Event delegation
+ document.addEventListener("click", () => {
+    /************ AJAX CALL FOR creating CHANNELS ****************** */ 
     document.querySelector("#add-channel-button").onclick = () => {
 
         const channel = document.querySelector("#channel-id").value;
@@ -88,6 +135,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return false;
     }
 
+    /************ AJAX CALL FOR selecting CHANNELS ****************** */ 
     document.querySelectorAll(".ch-class").forEach( (button) => {
         button.onclick = () => {
             // channel id change from "ch-2" to "2"
@@ -124,45 +172,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return false;
         };
     });    
-
-    /************ Socket IO ****************** */ 
-    // Connect to websocket
-    var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port);
-     
-    
-    // Send Message
-     socket.on('connect', () => {
-        document.querySelector('#send').onclick =  () => {
-            if(document.querySelector('#message').value == ''){
-                // don't do anything
-            }
-            else {
-            // Save data to local variables
-            const message = document.querySelector('#message').value;
-            const username = localStorage.getItem('username');
-            const timestamp = new Date().getTime();
-            //Prepare the data to send it to server
-            const data = {'message': message, 'username': username, 'jstimestamp': timestamp};
-            socket.emit('send message', data);
-            
-            // Clear input field and autofocus
-            document.querySelector('#message').value = "";
-            document.querySelector('#message').focus();
-            }  
-        }
-     });
-
-     // Display Message
-     socket.on('display message', data => {
-         const p = document.createElement('p');
-         p.innerHTML = `${data.username}: ${data.message}<br>Sent time: ${data.timestamp}`;
-         document.querySelector('#conversation').append(p);
-
-        // Scroll the messages to the bottom
-        var messageScroll = document.getElementById("conversation");
-        messageScroll.scrollTo(0, messageScroll.scrollHeight);
-     });
-
  });
 
 
