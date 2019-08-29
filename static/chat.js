@@ -49,9 +49,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // Save data to local variables
             const message = document.querySelector('#message').value;
             const username = localStorage.getItem('username');
+            const channel = localStorage.getItem('channel')
             const timestamp = new Date().getTime();
             //Prepare the data to send it to server
-            const data = {'message': message, 'username': username, 'jstimestamp': timestamp};
+            const data = {'message': message, 'username': username, 'jstimestamp': timestamp, 'channel': channel};
             socket.emit('send message', data);
             
             // Clear input field and autofocus
@@ -64,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
      // Display Message
      socket.on('display message', data => {
          const p = document.createElement('p');
-         p.innerHTML = `${data.username}: ${data.message}<br>Sent time: ${data.timestamp}`;
+         p.innerHTML = `${data.username}: ${data.message}<br>Sent time: ${data.timestamp} <br> UserID: ${data.userid} <br> ChannelID: ${data.channelid}`;
          document.querySelector('#conversation').append(p);
 
         // Scroll the messages to the bottom

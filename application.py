@@ -16,9 +16,9 @@ class Message:
         #local variables
         self.content = content
         self.time = time
-        #FK
-        self.fk_userid = self.fk_u
-        self.fk_channelid = self.fk_ch
+        self.fk_u = fk_u
+        self.fk_ch = fk_ch
+
 
 class User:
     user_counter = 0
@@ -74,7 +74,7 @@ def MconvertToJSON(MlistOfClassObjects):
     dictList = []
     dict = {}
     for Mobj in MlistOfClassObjects:
-        dict = {"id":Mobj.id, "content":Mobj.username, "time": Mobj.time, "fk_channelid": Mobj.fk_channelid, "fk_userid": Mobj.fk_userid}
+        dict = {"id":Mobj.id, "content":Mobj.content, "time": Mobj.time, "fk_channelid": Mobj.fk_ch, "fk_userid": Mobj.fk_u}
         dictList.append(dict)
     return json.dumps(dictList)
 
@@ -175,4 +175,24 @@ def messenger(receivedData):
     server_data["timestamp"] = timestamp.fromtimestamp(receivedData["jstimestamp"]/1000).strftime("%c")
     server_data["username"] = receivedData["username"]
     server_data["message"] = receivedData["message"]
+    server_data["channel"] = receivedData["channel"]
+    tempfk_u = ""
+    tempfk_ch = ""
+
+    # get userid of author
+    for user in usernamesList:
+        if user.username == receivedData["username"]:
+            tempfk_u = user.id
+    
+    # get channelid of author
+    for channel in channelsList:
+        if channel.channelname == receivedData["channel"]:
+            tempfk_ch = channel.id
+
+    server_data["channelid"] = tempfk_ch
+    server_data["userid"] = tempfk_u
+
+    mObject = Message(content = receivedData["message"], time = server_data["timestamp"], fk_u = tempfk_u, fk_ch = tempfk_ch)
+    messagesList.append(mObject)
+
     emit("display message", server_data, broadcast=True)
