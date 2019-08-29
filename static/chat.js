@@ -65,8 +65,11 @@ document.addEventListener('DOMContentLoaded', () => {
      // Display Message
      socket.on('display message', data => {
          const p = document.createElement('p');
-         p.innerHTML = `${data.username}: ${data.message}<br>Sent time: ${data.timestamp} <br> UserID: ${data.userid} <br> ChannelID: ${data.channelid}`;
-         document.querySelector('#conversation').append(p);
+         if (localStorage.getItem('channel') == data.channel)
+         {
+            p.innerHTML = `${data.username}: ${data.message}<br>Sent time: ${data.timestamp} <br> UserID: ${data.userid} <br> ChannelID: ${data.channelid}`;
+            document.querySelector('#conversation').append(p);
+         }
 
         // Scroll the messages to the bottom
         var messageScroll = document.getElementById("conversation");
