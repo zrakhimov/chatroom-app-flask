@@ -1,6 +1,6 @@
 import os, datetime
 
-from flask import Flask, redirect, render_template, request, jsonify, abort, url_for
+from flask import Flask, redirect, render_template, request, jsonify, abort, url_for, json
 from flask_socketio import SocketIO, emit
 
 app = Flask(__name__)
@@ -50,6 +50,34 @@ channelsList.append(Channel(channelname = "general"))
 usernamesList.append(User(username = "admin"))
 
 timestamp = datetime.datetime
+
+# Returns jsonified Users list
+def UconvertToJSON(UlistOfClassObjects):
+    dictList = []
+    dict = {}
+    for Uobj in UlistOfClassObjects:
+        dict = {"id":Uobj.id, "username":Uobj.username, "fk_channelid": Uobj.fk_channelid}
+        dictList.append(dict)
+    return json.dumps(dictList)
+
+# Returns jsonified Channels list
+def CHconvertToJSON(CHlistOfClassObjects):
+    dictList = []
+    dict = {}
+    for CHobj in CHlistOfClassObjects:
+        dict = {"id":CHobj.id, "channelname":CHobj.channelname}
+        dictList.append(dict)
+    return json.dumps(dictList)
+
+# Returns jsonified Messages list
+def MconvertToJSON(MlistOfClassObjects):
+    dictList = []
+    dict = {}
+    for Mobj in MlistOfClassObjects:
+        dict = {"id":Mobj.id, "content":Mobj.username, "time": Mobj.time, "fk_channelid": Mobj.fk_channelid, "fk_userid": Mobj.fk_userid}
+        dictList.append(dict)
+    return json.dumps(dictList)
+
 
 
 @app.route("/")
@@ -104,7 +132,18 @@ def addchannel():
         #Return the last item in the channelsList
 
         return jsonify({"channel": channelsList[-1].channelname, "channelid": channelsList[-1].id})
-        #return '', 200
+        
+# AJAX getData
+@app.route("/getData")
+def getData():
+    json_usernamesList = UconvertToJSON(usernamesList)
+    json_channelsList = CHconvertToJSON(channelsList)
+    json_messagesList = MconvertToJSON(messagesList)
+    masterList = []
+    masterList.append(json_usernamesList)
+    masterList.append(json_channelsList)
+    masterList.append(json_messagesList)
+    return jsonify(masterList)
 
 # AJAX select
 @app.route("/selectch", methods=["POST"])
@@ -112,11 +151,13 @@ def selectchannel():
     #Receive sent data from AJAX call
     channel_id = request.form.get("channel_id")
     username = request.form.get("username")
-    for obj in usernamesList:
-        if username == obj.username:
-            obj.setChannel(channel_id)
+    
+    #Set channel for the user
+    for user_obj in usernamesList:
+        if username == user_obj.username:
+            user_obj.setChannel(channel_id)
 
-    return '', 200
+    return jsonify({"selected_channel": channelsList[-1].channelname, "selected_channelid": channelsList[-1].id})
 
     
 

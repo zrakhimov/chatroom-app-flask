@@ -82,7 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const channel = document.querySelector("#channel-id").value;
         if (channel == ""){
-            alert("Please enter channel name!");
+            //alert("Please enter channel name!");
         }
         else {
             // Initialize new AJAX request
@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Callback function
         request.onload = () => {
             if (JSON.parse(request.responseText).status == "exists")
-                alert("Channel exists! Please enter a different name for the channel");
+                console.log("Channel exists! Please enter a different name for the channel");
             else {
                 //location.reload();
                 //Extract JSON data from request
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const channel_id = button.getAttribute("id").replace("ch-", "");
             const username = localStorage.getItem('username');
             if (channel_id == ""){
-                alert("Channel id doesn't exist!");
+                console.log("Channel id doesn't exist!");
             }
             else {
                 // Initialize new AJAX request
@@ -159,10 +159,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Callback function
                 request.onload = () => {
                     if (request.status != 200)
-                        alert("Something went wrong");
+                        console.log("Something went wrong");
                     else {
-                    let msg = button.getAttribute("id").replace("ch-", "");
-                    alert("You pressed " + msg);
+                        const msg = button.getAttribute("id").replace("ch-", "");
+                        console.log("You pressed " + msg);
 
                         
                     }
@@ -171,8 +171,44 @@ document.addEventListener('DOMContentLoaded', () => {
             
             return false;
         };
-    });    
+    });   
+       
+   
+
  });
+
+  /************ AJAX CALL FOR get Master data ****************** */ 
+
+document.addEventListener("change", () => {
+
+      
+    // Initialize new AJAX request
+    const request = new XMLHttpRequest();
+    request.open('GET', '/getData');
+    // Send request
+    request.send();
+
+
+    // Callback function
+    request.onload = () => {
+        document.querySelector("#jsonTest").innerHTML = "" ;
+        const data = JSON.parse(request.responseText);
+        //Create li element
+        const li1 = document.createElement('li');
+        li1.innerHTML = data[0];
+        const li2 = document.createElement('li');
+        li2.innerHTML = data[1];
+        const li3 = document.createElement('li');
+        li3.innerHTML = data[2];
+        document.querySelector("#jsonTest").append(li1);
+        document.querySelector("#jsonTest").append(li2);
+        document.querySelector("#jsonTest").append(li3);
+                        
+    }
+
+
+return false;
+});
 
 
 

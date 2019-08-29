@@ -32,24 +32,17 @@
                     <button id='ch-{{item.id}}' type="button" class="ch-class btn btn-outline-secondary ">#{{item.channelname}}</button>
               {% endfor %}
             </div>
-
-            <!-- Testing purposes-->
-            {% for item in channelsResult %}
-                channelName: {{item.channelname}} | channelID: {{item.id}} | channelCounter: {{item.channel_counter}}<br>
-            {% endfor %}
-            <br>
-            {% for x in usernamesResult %}
-                username: {{x.username}} | usernameID: {{x.id}} | userCounter: {{x.user_counter}} | userChannel: {{x.fk_channelid}}<br>
-            {% endfor %}
-            <br>
-            current_channel = {{current_channel}} | Current_username: {{username}}
-
           </div>
 
 
           <!-- Messages Column-->
           <div id="messagesColumn" class="col-md-9">
             <h3 class="border-bottom">You're signed in as : {{username}}</h3>
+            
+            <!-- Testing JSON -->
+              <ul id="jsonTest">
+                <!-- here goes JSON data-->
+              </ul>
             <!-- Socket IO conversation window-->
             <div id="conversation">
               <!-- list of messages -->
