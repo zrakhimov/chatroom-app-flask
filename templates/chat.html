@@ -49,7 +49,11 @@
               </ul>
             <!-- Socket IO conversation window-->
             <div id="conversation">
-              <!-- list of messages -->
+              {% for message in messagesResult %}
+                  {% if message.fk_ch == temp_ch_id %}
+                          <p> {{username}}: {{message.content}}<br>Sent time: {{message.time}} <br> channelname:#{{current_channel}}</p>
+                  {% endif %} 
+              {% endfor %}
             </div>
             <div id="sendPanel" class="input-group">
               <input id="message" type="text" class="form-control" placeholder="Type your message here" autofocus />

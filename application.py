@@ -92,7 +92,10 @@ def chat():
     if (local_storage_exists is "1"):
         existing_username = request.form.get("username")
         existing_channel = request.form.get("channel")
-        return render_template("chat.html", username=existing_username, current_channel=existing_channel, channelsResult=channelsList, usernamesResult=usernamesList)
+        for obj in channelsList:
+                if existing_channel == obj.channelname:
+                    temp_ch_id = obj.id
+        return render_template("chat.html", username=existing_username, current_channel=existing_channel, temp_ch_id=temp_ch_id, channelsResult=channelsList, messagesResult=messagesList)
     else:
         found = False
         new_username = request.form.get("username")
@@ -109,8 +112,9 @@ def chat():
             usernamesList.append(new_user_instance)
             for obj in channelsList:
                 if new_user_instance.fk_channelid == obj.id:
+                    temp_ch_id = obj.id
                     current_channel = obj.channelname
-            return render_template("chat.html", username=new_user_instance.username, current_channel=current_channel, channelsResult=channelsList, usernamesResult=usernamesList )
+            return render_template("chat.html", username=new_user_instance.username, current_channel=current_channel, temp_ch_id=temp_ch_id, channelsResult=channelsList, messagesResult=messagesList)
 #todo : POST REDIRECT GET pattern
 
 #Ajax add
@@ -162,7 +166,6 @@ def selectchannel():
     for channel_obj in channelsList:
         if channel_obj.id == int(channel_id):
             selected_channel = channel_obj.channelname
-
 
     return jsonify({"selected_channel": selected_channel})
 

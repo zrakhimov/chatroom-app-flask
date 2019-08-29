@@ -73,11 +73,20 @@ document.addEventListener('DOMContentLoaded', () => {
         messageScroll.scrollTo(0, messageScroll.scrollHeight);
      });
 
+     /************ END SOCKET IO ***********/
+
  });
 
 
 
-
+/**************** 
+ * 
+ * 
+ *  OBSERVE
+ *          
+ * 
+ * 
+ ****************/
  document.addEventListener("mousemove", () => {
 
     /************ AJAX CALL FOR creating CHANNELS ****************** */ 
@@ -144,6 +153,10 @@ document.addEventListener('DOMContentLoaded', () => {
             // channel id change from "ch-2" to "2"
             const channel_id = button.getAttribute("id").replace("ch-", "");
             const username = localStorage.getItem('username');
+
+            // Clear out messages
+            document.querySelector("#conversation").innerHTML = "";
+
             if (channel_id == ""){
                 console.log("Channel id doesn't exist!");
             }
@@ -164,7 +177,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (request.status != 200)
                         console.log("Something went wrong");
                     else {
-                        
                         //Extract JSON data from request
                         const data = JSON.parse(request.responseText);
                         // Display current channel
@@ -179,9 +191,9 @@ document.addEventListener('DOMContentLoaded', () => {
                                 else {
                                     button.classList.remove("active");
                                 }
-                            
-                        
                         });
+                        // Display list of messages for the specific channel
+                        
                     
                     }
                 }
