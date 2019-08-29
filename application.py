@@ -156,8 +156,15 @@ def selectchannel():
     for user_obj in usernamesList:
         if username == user_obj.username:
             user_obj.setChannel(channel_id)
+    
+    # Find the channel name selected
+    selected_channel = ""
+    for channel_obj in channelsList:
+        if channel_obj.id == int(channel_id):
+            selected_channel = channel_obj.channelname
 
-    return jsonify({"selected_channel": channelsList[-1].channelname, "selected_channelid": channelsList[-1].id})
+
+    return jsonify({"selected_channel": selected_channel})
 
     
 

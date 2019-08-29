@@ -13,7 +13,7 @@
       <div class="row">
           <!-- Channels Column-->
           <div id="channelColumn" class="col-md-3 border-right">
-            <h3 class="border-bottom">Channels</h3>
+            <h3 class="border-bottom">Current channel: <span id="current_channel">#{{current_channel}}</span></h3>
             <!--Add Channel-->
             <div id="add-channel-panel" class="input-group">
               <div class="input-group-prepend">
@@ -29,7 +29,7 @@
             <div id="channel-list" class="d-flex btn-group-vertical justify-content-center">
               <!-- Updated Channels list -->
               {% for item in channelsResult %}
-                    <button id='ch-{{item.id}}' type="button" class="ch-class btn btn-outline-secondary ">#{{item.channelname}}</button>
+                    <button id='ch-{{item.id}}' type="button" class="ch-class btn btn-outline-secondary active">#{{item.channelname}}</button>
               {% endfor %}
             </div>
           </div>

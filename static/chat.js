@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
- document.addEventListener("click", () => {
+ document.addEventListener("mousemove", () => {
 
     /************ AJAX CALL FOR creating CHANNELS ****************** */ 
     document.querySelector("#add-channel-button").onclick = () => {
@@ -163,10 +163,23 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (request.status != 200)
                         console.log("Something went wrong");
                     else {
-                        const msg = button.getAttribute("id").replace("ch-", "");
-                        console.log("You pressed " + msg);
-
                         
+                        //Extract JSON data from request
+                        const data = JSON.parse(request.responseText);
+                        // Display current channel
+                        document.querySelector("#current_channel").innerHTML = "#" + data.selected_channel;
+                        // Highlight the button as active
+                        document.querySelectorAll(".ch-class").forEach( (button) => {
+                                if (button.innerHTML == `#${data.selected_channel}`){
+                                    button.classList.add("active");
+                                }
+                                else {
+                                    button.classList.remove("active");
+                                }
+                            
+                        
+                        });
+                    
                     }
                 }
             }
