@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
  * 
  * 
  ****************/
- document.addEventListener("onclick", () => {
+ document.addEventListener("click", () => {
 
     /************ AJAX CALL FOR creating CHANNELS ****************** */ 
     document.querySelector("#add-channel-button").onclick = () => {
