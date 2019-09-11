@@ -167,7 +167,16 @@ def selectchannel():
         if channel_obj.id == int(channel_id):
             selected_channel = channel_obj.channelname
 
-    return jsonify({"selected_channel": selected_channel})
+    # Retrieve messages specific for that channel
+    channel_messages_list = []
+    # Extract only messages relevant to selected channel channel
+    for message_obj in messagesList:
+        if message_obj.fk_ch == int(channel_id):
+            channel_messages_list.append(message_obj)
+    #Convert the list to dictionary
+    json_channelMessages = MconvertToJSON(channel_messages_list)
+
+    return jsonify({"selected_channel": selected_channel, "messages": json_channelMessages})
 
     
 

@@ -90,14 +90,14 @@ document.addEventListener('DOMContentLoaded', () => {
  * 
  * 
  ****************/
- document.addEventListener("click", () => {
+ document.addEventListener("mousemove", () => {
 
     /************ AJAX CALL FOR creating CHANNELS ****************** */ 
     document.querySelector("#add-channel-button").onclick = () => {
 
         const channel = document.querySelector("#channel-id").value;
         if (channel == ""){
-            //alert("Please enter channel name!");
+            console.log("Please enter channel name!");
         }
         else {
             // Initialize new AJAX request
@@ -196,7 +196,16 @@ document.addEventListener('DOMContentLoaded', () => {
                                 }
                         });
                         // Display list of messages for the specific channel
-                        
+                        //console.log(data.messages)
+                        const p = document.createElement('p');
+                        for (var i = 0; i < 10; i++) {
+                            var obj = data.messages[i];
+                           
+                               p.innerHTML = `${obj}`;
+                               document.querySelector('#conversation').append(p);
+
+                        }
+
                     
                     }
                 }
