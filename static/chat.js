@@ -182,6 +182,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     else {
                         //Extract JSON data from request
                         const data = JSON.parse(request.responseText);
+                        const messages = JSON.parse(data.messages);
                         // Display current channel
                         document.querySelector("#current_channel").innerHTML = "#" + data.selected_channel;
                         // Change Local Storage channel value
@@ -196,15 +197,16 @@ document.addEventListener('DOMContentLoaded', () => {
                                 }
                         });
                         // Display list of messages for the specific channel
-                        //console.log(data.messages)
-                        const p = document.createElement('p');
-                        for (var i = 0; i < 10; i++) {
-                            var obj = data.messages[i];
-                           
-                               p.innerHTML = `${obj}`;
-                               document.querySelector('#conversation').append(p);
-
+                        
+                        
+                        for (var i=0; i < messages.length ; i++){
+                            const p = document.createElement('p');
+                            p.innerHTML = `Content: ${messages[i].content} | UserID: ${messages[i].fk_userid} | ChannelID: ${messages[i].fk_channelid} | Content: ${messages[i].time}`;
+                            document.querySelector('#conversation').append(p);
                         }
+                       
+                        
+
 
                     
                     }
