@@ -207,15 +207,9 @@ document.addEventListener('DOMContentLoaded', () => {
                                     username = users[j].username;
                                 }
                             }
-
                             p.innerHTML = `<b>${username}</b> @ <h6"> ${messages[i].time}</h6> <br><font color="blue">${messages[i].content}</font><br>`;
                             document.querySelector('#conversation').append(p);
                         }
-                       
-                        
-
-
-                    
                     }
                 }
             }
