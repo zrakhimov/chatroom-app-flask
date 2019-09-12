@@ -67,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
          const p = document.createElement('p');
          if (localStorage.getItem('channel') == data.channel)
          {
-            p.innerHTML = `${data.username}: ${data.message}<br>Sent time: ${data.timestamp} <br> UserID: ${data.userid} <br> ChannelID: ${data.channelid}`;
+            p.innerHTML = `<b>${data.username}</b> @ ${data.timestamp} <br><font color="blue">${data.message}</font><br>`;
             document.querySelector('#conversation').append(p);
          }
 
@@ -201,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         
                         for (var i=0; i < messages.length ; i++){
                             const p = document.createElement('p');
-                            p.innerHTML = `Content: ${messages[i].content} | UserID: ${messages[i].fk_userid} | ChannelID: ${messages[i].fk_channelid} | Content: ${messages[i].time}`;
+                            p.innerHTML = `<b>${messages[i].fk_userid}</b> @ <h6"> ${messages[i].time}</h6> <br><font color="blue">${messages[i].content}</font><br>`;
                             document.querySelector('#conversation').append(p);
                         }
                        
