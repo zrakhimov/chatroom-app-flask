@@ -183,6 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         //Extract JSON data from request
                         const data = JSON.parse(request.responseText);
                         const messages = JSON.parse(data.messages);
+                        const users = JSON.parse(data.users);
                         // Display current channel
                         document.querySelector("#current_channel").innerHTML = "#" + data.selected_channel;
                         // Change Local Storage channel value
@@ -197,11 +198,17 @@ document.addEventListener('DOMContentLoaded', () => {
                                 }
                         });
                         // Display list of messages for the specific channel
-                        
-                        
                         for (var i=0; i < messages.length ; i++){
                             const p = document.createElement('p');
-                            p.innerHTML = `<b>${messages[i].fk_userid}</b> @ <h6"> ${messages[i].time}</h6> <br><font color="blue">${messages[i].content}</font><br>`;
+                            var username = "";
+                            // convert messages[i].fk_userid => actual username who sent message
+                            for (var j=0; j < users.length; j++){
+                                if(messages[i].fk_userid == users[j].id) {
+                                    username = users[j].username;
+                                }
+                            }
+
+                            p.innerHTML = `<b>${username}</b> @ <h6"> ${messages[i].time}</h6> <br><font color="blue">${messages[i].content}</font><br>`;
                             document.querySelector('#conversation').append(p);
                         }
                        

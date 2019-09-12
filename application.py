@@ -175,8 +175,8 @@ def selectchannel():
             channel_messages_list.append(message_obj)
     #Convert the list to dictionary
     json_channelMessages = MconvertToJSON(channel_messages_list)
-
-    return jsonify({"selected_channel": selected_channel, "messages": json_channelMessages})
+    json_usernamesList = UconvertToJSON(usernamesList)
+    return jsonify({"selected_channel": selected_channel, "messages": json_channelMessages, "users": json_usernamesList })
 
     
 
