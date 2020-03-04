@@ -218,29 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     });   
        
-    /************ AJAX CALL FOR get Master data ----- TEST ------ ****************** */ 
-    // Initialize new AJAX request
-    const request = new XMLHttpRequest();
-    request.open('GET', '/getData');
-    // Send request
-    request.send();
-
-    // Callback function
-    request.onload = () => {
-        document.querySelector("#jsonTest").innerHTML = "" ;
-        const data = JSON.parse(request.responseText);
-        //Create li element
-        const li1 = document.createElement('li');
-        li1.innerHTML = data[0];
-        const li2 = document.createElement('li');
-        li2.innerHTML = data[1];
-        const li3 = document.createElement('li');
-        li3.innerHTML = data[2];
-        document.querySelector("#jsonTest").append(li1);
-        document.querySelector("#jsonTest").append(li2);
-        document.querySelector("#jsonTest").append(li3);         
-    }
-    /*-------------------- END TEST -------------------------------- */
+    
 
  });
 
