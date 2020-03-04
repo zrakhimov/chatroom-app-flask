@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // set the channel for hidden input field
             document.querySelector("#channel").value = localStorage.getItem('channel');
             // submit the form to the server
-            document.querySelector("#form").submit();
+            //document.querySelector("#form").submit();
         }
         // if localStorage doesn't exist
         else {                       
